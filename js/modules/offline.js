@@ -11,7 +11,7 @@ function updateOfflineButtons() {
     overrideBtn.classList.toggle("hidden-offline", !isOnline);
   }
 
-  const buttonsToHide = ["lockButton", "profile", "marketing", "viewAllButton", "salesletter"];
+  const buttonsToHide = ["lockButton", "profile", "favorite-brand-button", "savedListsButton", "marketing", "viewAllButton", "salesletter"];
   const buttonsToStyle = ["CartButton"];
   const offlineMessage = document.getElementById("offlineMessage");
 

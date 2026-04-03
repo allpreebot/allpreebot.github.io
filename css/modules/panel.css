@@ -1,0 +1,38 @@
+/**
+ * Panel Styles
+ * Sliding panel UI
+ */
+
+#panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  background: white;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(80%);
+  transition: transform 0.3s ease;
+  z-index: 999;
+  pointer-events: auto;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+}
+
+#handle {
+  width: 30%;
+  height: 5px;
+  background: #bbb;
+  border-radius: 10px;
+  margin: 8px auto;
+}
+
+#panelContent {
+  flex: 1;
+  pointer-events: auto;
+  overflow-y: hidden;
+  padding: 16px;
+}

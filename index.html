@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> 
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet"> 
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet"> 
+	
+<script src="js/loader.js"></script>
+<link href="//fonts.googleapis.com/css?family=Space+Mono|Work+Sans:700" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">	
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
+<link rel="apple-touch-icon" type="image/png" sizes="192x192" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
+<link rel="apple-touch-icon" type="image/png" sizes="32x32" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
+<link rel="apple-touch-icon" type="image/png" sizes="96x96" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
+<link rel="apple-touch-icon" type="image/png" sizes="16x16" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
+	<link rel="web-app-origin-association" href="/web-app-origin-association">
+   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+     <title>See Today's Deals</title>
+	 <meta name="robots" content="noindex, nofollow" />
+        
+  
+
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js")
+            .then(() => console.log("Service Worker Registered"))
+            .catch((error) => console.log("Service Worker Registration Failed", error));
+    }
+</script>	
+
+	<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2Z2P5DQPN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J2Z2P5DQPN');
+</script>
+
+</head>
+<body>
+<!-- start webpushr tracking code  
+<script>(function(w,d, s, id) {if(typeof(w.webpushr)!=='undefined') return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.async=1;js.src = "https://cdn.webpushr.com/app.min.js";
+fjs.parentNode.appendChild(js);}(window,document, 'script', 'webpushr-jssdk'));
+webpushr('setup',{'key':'BE2GVRF5mLk7Fp1kzgXE_A5QDGK54HwqN1wEgxczP_fzfugkPREKHebr_Bfzd13eEyrn2rpv_IxZ-H9A4rygXPA' });</script>
+ end webpushr tracking code -->
+
+	<div class="container">
+             <div class="row land">
+                 <div class="home">     
+ 			<div class="center">
+                 <div class="col-md-6 home-txt1">
+			 
+<div id="a2hs-popup" style="display: none;
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      right: 20px;
+      background: #fff;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      z-index: 99999;
+      font-family: sans-serif;
+">
+  <div class="section" style="display: flex; align-items: center; margin-bottom: 16px;">
+    <div class="emoji2" style="font-size: 2rem; margin-right: 12px;">
+  <img src="https://www.allpree.com/img/AllPreepwaapp.png" alt="AllPree App Icon" style="height: 88px; width: 88px; border-radius: 10px;" />
+</div>
+    <div class="content2">
+      
+	 <img src="https://www.allpree.com/img/AllPreeLocalDeals.png" alt="AllPree App Icon" style="height: 45px; width: 188px; border-radius: 0px;" />    
+	    
+    </div>
+  </div>
+   Get full access to all local deals, exclusive offers, and shopping tools, no account needed. To log in, you'll need to create an account. <br><br>
+  <div id="a2hs-message" style="margin-bottom: 16px;">
+    <!-- This will be filled dynamically for Android or iOS -->
+  </div>
+  <div style="display: flex; justify-content: flex-end;">
+    <button id="a2hs-install-btn" style="margin-right: 10px;">Install</button>
+    <button id="a2hs-close">×</button>
+  </div>
+</div>
+			 
+ <div id="splash-screen">
+    <video autoplay muted playsinline preload="auto">
+      <source src="https://www.allpree.com/img/allpree%20Video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="loading-text" id="loadingText"></div>
+  </div>
+			  <div id="main-app" style="display: none;">
+			 
+	
+				  <br>
+  <div id="deals-container">Loading deals...</div>
+
+	<div id="bottomMenu">
+        <div id="refresh-button" style="position: fixed;" class="menu-button" onclick="location.reload()"><i class="fa-solid fa-arrows-rotate fa-lg"></i></div>
+        <div id="qr-scan-button" class="menu-button" style="margin-left: 60px;" onclick="openQRScanner()"><i class="fa-solid fa-qrcode fa-lg"></i></div>
+        <div id="savedListsButton" class="menu-button" onclick="openSavedListsPopup()"><i class="fa-solid fa-receipt fa-lg"></i> </div>
+	<div id="viewAllButton" class="menu-button" ><i class="fa-solid fa-book-open-reader fa-lg"></i></div>
+	<div id="profile" class="menu-button" data-view="profile"><i class="fa-solid fa-user fa-lg"></i> </div>
+	
+	<div id="CartButton" class="menu-button" onclick="openCartPopup()"><i class="fa-solid fa-cart-shopping fa-lg"></i> <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 4px; display: none;">0</span></div>
+        
+	<div id="lockButton" onclick="openLeaderboard()" class="menu-button"><i class="fa-solid fa-arrow-up-wide-short fa-lg"></i> </div>
+	<div id="marketing" class="menu-button" data-view="marketing"><i class="fa-solid fa-share-from-square fa-lg"></i></div>	
+        <div id="salesletter" class="menu-button" data-view="salesletter"><i class="fa-solid fa-hand-holding-dollar fa-lg"></i> </div>
+		
+        <div id="takeover-brand-button" class="menu-button"  onclick="openTakeoverBrandPopup()"><i class="fa-solid fa-heart fa-lg"></i></div>     
+	<div id="favorite-brand-button" class="menu-button" onclick="openFavoriteBrandPopup()"><i class="fa-solid fa-trophy fa-lg"></i></div> <!-- -->
+		
+
+<div id="offlineMessage" class="menu-button" style="
+  display: none;
+  max-width: 200px;
+  background: #f44336;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.45rem;
+  word-wrap: break-word;
+
+">
+  You are offline. To get the latest deals,<br> 
+  please go back online. wifi or data
+</div>
+
+	
+     <div class="menu-button" data-view="signup"><i class="fa-solid fa-file-contract fa-lg"></i> Sign Up</div> 
+     <div id="generategiftcard" class="menu-button" data-view="generategiftcard"><i class="fa-solid fa-credit-card fa-lg"></i> </div>	
+     <div class="menu-button" data-view="topup"><i class="fa-solid fa-building-columns fa-lg"></i> Topup Card</div>
+     <div class="menu-button" data-view="balance"><i class="fa-solid fa-piggy-bank fa-lg"></i> Balance & Bill Payment</div>
+  
+</div>
+
+
+<div id="storyListPopup" style="display: none;">
+   <button id="closeStoryListPopupBtn">X</button>
+  <div id="storyListContainer" class="story-grid"></div>
+</div>
+
+<div class="swiper" style="display:none;">
+  <div class="swiper-wrapper" id="storyWrapper"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="tap-zone tap-left" id="tapLeft"></div>
+  <div class="tap-zone tap-right" id="tapRight"></div>
+</div>
+
+
+				  
+<!-- Slide-up panel content area -->
+<div id="panel" class="slide-up-panel">
+  <div id="handle">
+	<div class="drag-hint">⬆️⬇️ Drag up or down</div>  
+  </div>
+  <div id="panelContent">
+	  
+<div class="help-section">
+ 
+
+   <div class="accordion">
+    <div class="accordion-header">1. 🏬 Browse Deals by Brand</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">🏬</span>Brands are sorted by discount and ⏳ expiration time.</li>
+        <li><span class="icon">⭐</span> <strong>Featured Brand:</strong> Automatically open when you launch the app.</li>
+         <li><span class="icon">🌟</span> <strong>Top 5 Brands:</strong>  Brands pick to be on top.</li>
+        <li><span class="icon">🔥</span> <strong>Hottest Discount:</strong> Top discounts across all brands.</li>
+        <li><span class="icon">🚫</span>No deals available right now. Means check back later.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">2. 🏷️ Brand Recognition Guide</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">🏆</span> <strong>Elite Brand</strong> </li>
+        <li><span class="icon">👑</span> <strong>Pro Brand</strong> </li>
+        <li><span class="icon">💎</span> <strong>Premium Brand</strong> </li>
+        <li><span class="icon">🎁</span> <strong>Starter Brand</strong></li>
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">3. 🏆 Elite Brand</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">💥</span> <strong>Exclusive Brand:</strong> They are the only deals in the system.</li>
+        <li><span class="icon">👆</span> <strong>During Exclusive:</strong> Click Show All Other Brands to reveal the others.</li>
+        </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">4. 🔍 View Deal Details</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">👆</span>Click on any deal to see price, cashback, and expiration.</li>
+        <li><span class="icon">⬆️⬇️</span>Swipe up or down to move between deals.</li>
+        <li><span class="icon">➖</span>Tap on the tabs to switch between mode.</li>
+        <li><span class="icon">📝</span> Add deals to your cart.</li>
+        <li><span class="icon">❌</span> Delete deals from your cart.</li>
+         <li><span class="icon">❤️</span>Tap the heart icon to likes deals you like.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">5. ❤️ Likes Deals</div>
+    <div class="accordion-content">
+      <ul>
+       <li><span class="icon">❤️</span>Likes deals auto-load at the top for quick access.</li>
+        <li><span class="icon">👆</span>Click on any liked deals to view all liked deals.</li>
+        
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">6. 🛒 Shopping Cart</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">💵</span>See subtotals, tax, and grand totals by brand.</li>
+        <li><span class="icon">📃</span>Clear brand-specific all items from your cart.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">7. 💾 Save Shopping List</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">📃</span> Save your current shopping list for later reference.</li>
+        <li><span class="icon">📅</span> Lists are saved by brand with date and items included.</li>
+        <li><span class="icon">📂</span> You can open saved lists anytime to review them quickly.</li>
+      </ul>
+    </div>
+  </div>
+	
+  <div class="accordion">
+    <div class="accordion-header">8. 📍 Store Locations</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">📍</span>Click <strong>Location</strong> to get stores directions.</li>
+        <li><span class="icon">📉</span>Enable location access to get directions in Google Maps.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">9. 🧪 Tips & Tricks</div>
+    <div class="accordion-content">
+      <ul>
+        
+        <li><span class="icon">👆</span>Click to open and close brands grid to reshuffle deals.</li>
+        <li><span class="icon">⏳</span>Keep an eye on timers, some expire quickly.</li>
+       
+      </ul>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <div class="accordion-header">10. ❓ Troubleshooting</div>
+    <div class="accordion-content">
+      <ul>
+        <li><span class="icon">🔄</span>Refresh the page if deals don’t load.</li>
+        <li><span class="icon">🚫</span>Check your internet connection.</li>
+        <li><span class="icon">📍</span>Enable location access for maps and directions.</li>
+        <li><span class="icon">🔧</span>Clearing browser data removes saved favorites and cart.</li>
+        <li><span class="icon">📧</span>Need help? <strong>just message us on WhatsApp</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const currentlyActive = document.querySelector('.accordion-header.active');
+      if (currentlyActive && currentlyActive !== header) {
+        currentlyActive.classList.remove('active');
+        currentlyActive.nextElementSibling.style.display = 'none';
+      }
+
+      header.classList.toggle('active');
+      const content = header.nextElementSibling;
+      content.style.display = header.classList.contains('active') ? 'block' : 'none';
+    });
+  });
+</script>	  
+  </div>
+</div>
+
+<!-- Leaderboard Popup -->
+<div id="leaderboardPopup" class="popup">
+  <button onclick="closeLeaderboard()" class="close-button" aria-label="Close leaderboard popup">&times;</button>
+  <h2>🎯 Referral Challenge</h2>
+	
+  <div class="leaderboard-tabs">
+    <div class="leaderboard-tab" onclick="showTab('sponsorTab', this)">⭐ Sponsor</div>
+    <div class="leaderboard-tab" onclick="showTab('leaderboardTab', this)">🏆 Leaderboard</div>
+    <div class="leaderboard-tab" onclick="showTab('winnersTab', this)">🎉 Winners</div>
+  </div>
+
+<div class="tab-content" id="sponsorTab" style="display: none;"> 
+  <div id="sponsorContent"> <center> <h3 style="margin-bottom: 10px;">No Sponsor Right Now</h3>
+    <p>Check back soon for your chance to win exclusive vouchers from top brands.</p>
+    <p>🔥 Exciting giveaways and offers are always around the corner!</p> </center></div> 
+</div>
+	
+  <div class="tab-content" id="leaderboardTab" style="display: none;">
+    <div id="leaderboardContent">Loading leaderboard...</div>
+  </div>
+
+  <div class="tab-content" id="winnersTab" style="display: none;">
+    <div id="winnersContent">Loading past winners...</div>
+  </div>
+</div>
+
+
+
+				  
+		  
+ <!-- Popup Overlay -->
+<div class="popup-overlay" id="popup">
+
+<div class="tab-switcher">
+  <button id="showLikedBtn" class="tab-btn">Likes</button>
+  <button id="showRandomBtn" class="tab-btn active">Deals</button>
+  <button id="showBrandTabBtn" class="tab-btn">List</button>
+ <button id="cartBtn" class="tab-btn">
+  <span class="cart-icon2">🛒</span>
+  <span id="cartCount" class="cart-count2">0</span>
+</button>
+</div>
+
+	
+  <div class="popup-content" id="popupContent">
+    <span class="popup-close" onclick="closePopup()">×</span>
+    <div style="position: relative;">
+      <span class="popup-discount-badge" id="popupBadge"></span>
+	    
+      <button id="popupBack" class="popup-back-arrow"></button> 
+     <div class="image-wrapper">
+      <img id="popupImg" src="" alt="Product">
+    </div>
+	   <div id="cartBtnContainer" class="hidden">
+	    <button id="popupAddToCartBtn" class="cart-btn">🛒 Add</button>
+	    </div>
+	   <div id="likeButtonContainer">
+  <button class="like-btn" id="popupLikeBtn">🤍 Like</button>
+</div>
+
+    </div>
+    <div class="popup-body">
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-price" id="popupPrice"></div>
+      <div class="popup-discount" id="popupDiscount"></div>
+      <div class="popup-savings" id="popupSavings"></div> <!-- Savings element below the discount -->
+      <div id="popupCashback" class="popup-cashback"></div>
+      <div class="popup-description" id="popupDesc"></div>
+     
+    </div>	  
+  </div> 
+
+ <!-- Brand Box Wrapper -->
+<div class="popup-brand-box" id="brandContainer">
+  <div class="brand-logo-container">
+    <img id="brandLogo" src="" alt="Brand Logo" class="brand-logo">
+  </div>
+
+	<div class="brand-text-container">
+    <div id="brandName" class="brand-name"></div>
+    <span id="popupTimer" class="brand-timer"></span>
+  </div>
+  
+</div>
+	
+</div> 
+
+
+<div id="cartPopup" style="display: none; position: fixed; top: 60px; right: 10px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; background: white; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.3); z-index: 10000; padding: 16px;"></div>
+
+</div>
+</div>	
+</div>	
+</div>	
+</div>	
+</div>			 			 
+</body>
+</html>

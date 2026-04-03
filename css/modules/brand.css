@@ -1,0 +1,89 @@
+/**
+ * Brand Section Styles
+ * Brand display and logos
+ */
+
+.brand-section {
+  margin-bottom: 30px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: -15px;
+  margin-right: -15px;
+  width: calc(100% + 30px);
+  background-color: #fff;
+  padding: 1px 1px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1px;
+  min-height: 7px;
+}
+
+.brand-logo-container {
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo-container img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.brand img {
+  width: 100px;
+  height: 100px;
+  margin-left: 8px;
+  border-radius: 1px;
+  object-fit: contain;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-left: 67px;
+}
+
+.brand-timer {
+  font-size: 14px;
+  margin-left: 67px;
+}
+
+.countdown {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.countdown-timer {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.countdown-urgent .countdown-timer {
+  color: #ff4136;
+  animation: blink 1s step-start 0s infinite;
+}
+
+.countdown-ended {
+  color: gray;
+}
+
+.countdown-upcoming {
+  color: orange;
+  font-style: italic;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,274 @@
+<style>
+  #user-panel {
+    --primary: #10b981;
+    --danger: #ef4444;
+    --info: #3b82f6;
+    --bg: #fff;
+    --card-bg: #ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  #user-panel .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 10px 10px;
+  }
+
+  #user-panel h2,
+  #user-panel h3 {
+    margin: 16px 0 8px;
+    font-weight: 600;
+  }
+
+  #user-panel input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03);
+  }
+
+  #user-panel button {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  #user-panel button:hover {
+    background: #0e9e6e;
+  }
+
+  #user-panel #logoutBtn {
+    background: var(--danger);
+  }
+
+  #user-panel #logoutBtn:hover {
+    background: #dc2626;
+  }
+
+  #user-panel .filters button {
+    margin-top: 10px;
+    background: var(--info);
+  }
+
+  #user-panel .filters {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 16px 0;
+  }
+
+  #user-panel .user-header-card {
+    background-color: var(--card-bg);
+    padding: 1.2rem;
+    border-radius: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  #user-panel .user-header-card h2 {
+    margin-bottom: 0.3rem;
+    font-size: 20px;
+  }
+
+  #user-panel .user-header-card p {
+    margin: 0.3rem 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  #user-panel #loading-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10005;
+    display: none;
+  }
+
+  #user-panel #loading-spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #333;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  #user-panel .hidden {
+    display: none;
+  }
+
+  #user-panel .summary,
+  #user-panel .entry {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  #user-panel .summary h3 {
+    margin-bottom: 10px;
+  }
+
+  #user-panel .summary p {
+    margin: 6px 0;
+    color: var(--text);
+    font-size: 15px;
+  }
+
+  #user-panel .entry-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  #user-panel .entry-col {
+    flex: 1;
+  }
+
+  #user-panel .subtext {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 4px 0;
+  }
+
+  #user-panel .amount {
+    font-size: 15px;
+    font-weight: 600;
+  }
+ .tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1em;
+}
+ .tab-button {
+  padding: 6px 12px;
+  background-color: #eee;
+  border: none;
+  cursor: pointer;
+}
+ .tab-button:hover {
+  background-color: #ddd;
+}
+ .tab-content.hidden {
+  display: none;
+}
+.filters .menu-button {
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #3b82f6;
+  border: none;
+  cursor: pointer;
+}
+
+.filters .menu-button i {
+  font-size: 18px; /* smaller icon */
+}
+  .break-line {
+  display: block;
+  margin-top: 10px;
+}
+</style>
+
+<div id="user-panel">
+  <div class="container">
+    <div id="login-section" class="hidden">
+      <h4>Sign In to your account</h4>
+       <p>New to Allpree? <a href="#" id="account">Create account</a></p>
+      
+      <form id="login-form">
+        <input type="password" id="password" placeholder="Enter your access code" required />
+        <button type="submit" id="login-button">Continue</button>
+      </form>
+      <p>💬 To log in, you need a access code. <br><br>📱 WhatsApp us to generate your access code <a href="#" id="forgot-password"> Click Here</a> </p>
+    </div>
+
+  <div id="profile-section" class="hidden">
+
+  <div id="user-profile-header" class="user-header-card"></div>
+
+  <!-- TAB HEADERS -->
+  <div class="tabs">
+    <button class="tab-button" data-tab="summary-tab">Summary</button>
+    <button class="tab-button" data-tab="tools-tab">Tools</button>
+  </div>
+
+  <!-- TAB: SUMMARY -->
+  <div class="tab-content" id="summary-tab">
+    <div class="summary" id="user-summary"></div>
+
+    <div class="filters">
+      <button id="sort-latest-button">Sort ↓↑</button>
+      <button id="sort-negative-one-button">Pay Out Next</button>
+    </div>
+
+    <div id="user-profile"></div>
+  </div>
+
+  <!-- TAB: TOOLS -->
+  <div class="tab-content hidden" id="tools-tab">
+    <div class="filters">
+       <div id="topupcard" class="menu-button" data-view="topup-dummy">
+        <i class="fa-solid fa-building-columns fa-lg"></i> Topup Card
+       </div>
+       <div id="giftcard" class="menu-button" data-view="generategiftcard-dummy">
+        <i class="fa-solid fa-credit-card fa-lg"></i> Digital Card
+      </div> 
+      </div>
+    <div class="filters">
+       <div id="balancecard" class="menu-button" data-view="balance-dummy">
+        <i class="fa-solid fa-piggy-bank fa-lg"></i> Balance & Bill Payment
+      </div>
+    </div>
+  </div>
+
+  <button id="logoutBtn" onclick="logoutUser()">Logout</button>
+</div>
+
+  </div>
+
+  <div id="loading-modal">
+    <div id="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+</div>

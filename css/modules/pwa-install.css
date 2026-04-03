@@ -1,0 +1,92 @@
+/**
+ * PWA Install (A2HS) Styles
+ * Add to Home Screen popup
+ */
+
+#a2hs-popup {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  z-index: 99999;
+  font-family: sans-serif;
+}
+
+#a2hs-popup .content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#a2hs-install-btn {
+  background: #0071ce;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#a2hs-close {
+  margin-left: 10px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden-offline {
+  display: none !important;
+}
+
+/* Override buttons container - side by side */
+#override-buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 15px auto;
+  padding: 0 10px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Override button class - used by both buttons */
+.override-button {
+  padding: 10px 16px;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.override-button:hover {
+  background-color: #2563eb;
+}
+
+.override-button:active {
+  background-color: #1e40af;
+}
+
+/* My List button */
+#myListButton {
+  background-color: #1d4ed8;
+}
+
+#myListButton:hover {
+  background-color: #10b981;
+}
+
+#myListButton:active {
+  background-color: #047857;
+}

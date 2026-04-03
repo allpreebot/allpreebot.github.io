@@ -490,6 +490,7 @@
       <p class="tagline">Browse, Visit, Shop &amp; Save</p>
 
       <div class="action-buttons" id="action-buttons">
+      <a href="#" id="trigger-a2hs" class="install-button">Install</a>
         <button class="btn btn-primary" id="install-btn" aria-label="Add to Home Screen">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           Add to Home screen
@@ -644,24 +645,6 @@
   </div><!-- /.page-wrapper -->
 
   <script>
-    // ===== PWA INSTALL PROMPT =====
-    let deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-
-      const installBtn = document.getElementById('install-btn');
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          console.log(`Install prompt outcome: ${outcome}`);
-          deferredPrompt = null;
-        }
-      });
-    });
-
     // Share API
     document.getElementById('share-btn').addEventListener('click', async () => {
       if (navigator.share) {
@@ -682,35 +665,6 @@
         } catch {
           alert('Share is not supported in this browser.');
         }
-      }
-    });
-
-    // Wishlist (placeholder)
-    document.getElementById('wishlist-btn').addEventListener('click', () => {
-      const btn = document.getElementById('wishlist-btn');
-      const svg = btn.querySelector('svg path');
-      if (svg.getAttribute('fill') === 'none') {
-        svg.setAttribute('fill', '#e74c3c');
-        svg.setAttribute('stroke', '#e74c3c');
-        btn.style.borderColor = '#e74c3c';
-        btn.style.color = '#e74c3c';
-      } else {
-        svg.setAttribute('fill', 'none');
-        svg.setAttribute('stroke', 'currentColor');
-        btn.style.borderColor = '';
-        btn.style.color = '';
-      }
-    });
-
-    // Fallback for unsupported install
-    window.addEventListener('load', () => {
-      if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
-        const btn = document.getElementById('install-btn');
-        btn.addEventListener('click', () => {
-          if (!deferredPrompt) {
-            alert('To install: open your browser menu and tap "Add to Home Screen".');
-          }
-        });
       }
     });
   </script>
@@ -812,6 +766,9 @@
   showPopup();
 });
 </script>    
+
+
+<!--
 <script>
   // Reusable install mode checker
   function isInStandaloneMode() {
@@ -902,6 +859,7 @@
   }
 	
 </script>
+	-->
 
 	 <script>
     (function () {

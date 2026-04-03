@@ -644,25 +644,7 @@
   </div><!-- /.page-wrapper -->
 
   <script>
-    // ===== PWA INSTALL PROMPT =====
-    let deferredPrompt;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-
-      const installBtn = document.getElementById('install-btn');
-      installBtn.addEventListener('click', async () => {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          const { outcome } = await deferredPrompt.userChoice;
-          console.log(`Install prompt outcome: ${outcome}`);
-          deferredPrompt = null;
-        }
-      });
-    });
-
-    // Share API
+   // Share API
     document.getElementById('share-btn').addEventListener('click', async () => {
       if (navigator.share) {
         try {
@@ -702,17 +684,6 @@
       }
     });
 
-    // Fallback for unsupported install
-    window.addEventListener('load', () => {
-      if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
-        const btn = document.getElementById('install-btn');
-        btn.addEventListener('click', () => {
-          if (!deferredPrompt) {
-            alert('To install: open your browser menu and tap "Add to Home Screen".');
-          }
-        });
-      }
-    });
   </script>
 
    <script>
@@ -797,10 +768,10 @@
   });
 
   // Close button
-/*  document.getElementById('a2hs-close').addEventListener('click', () => {
+  document.getElementById('a2hs-close').addEventListener('click', () => {
     document.getElementById('a2hs-popup').style.display = 'none';
     localStorage.setItem('a2hsShown', 'false'); // So it can show again next time
-  }); */
+  }); 
 
   // Android: If installed
   window.addEventListener('appinstalled', () => {

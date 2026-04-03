@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Allpree Deals — Your ultimate local savings companion. Browse real-time deals, visit stores, shop smart and save big."/>
+  <title>Allpree Deals — Browse, Visit, Shop & Save</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="icon" href="favicon.ico"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    /* ===== DESIGN TOKENS ===== */
+    :root {
+      --primary: #FFD700;
+      --primary-dark: #E6C200;
+      --bg: #F4F6F8;
+      --text: #1A1A2E;
+      --text-secondary: #5A5A72;
+      --card-bg: #FFFFFF;
+      --border: #E2E6EA;
+      --accent-teal: #1A7A6D;
+      --accent-teal-light: #E8F5F2;
+      --accent-blue: #2A52BE;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 14px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-pill: 50px;
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; border: none; font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ===== LAYOUT ===== */
+    .page-wrapper {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      min-height: 100vh;
+      box-shadow: 0 0 40px rgba(0,0,0,0.06);
+    }
+
+    /* ===== HEADER / HERO ===== */
+    .hero {
+      padding: 32px 20px 24px;
+      text-align: center;
+      background: var(--card-bg);
+    }
+
+    .hero-icon {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 16px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .hero .tagline {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 18px;
+    }
+
+    /* ===== ACTION BUTTONS ROW ===== */
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      padding: 0 4px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent-teal);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: #15665B;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-teal);
+      color: var(--accent-teal);
+      transform: translateY(-1px);
+    }
+
+    .btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    /* ===== STATS ROW ===== */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0;
+      padding: 0 20px 20px;
+    }
+
+    .stat-item {
+      flex: 1;
+      text-align: center;
+      padding: 10px 8px;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .stat-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .stat-value .stars {
+      color: var(--primary);
+      font-size: 0.75rem;
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border: 2px solid var(--text);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 8px;
+      background: var(--bg);
+    }
+
+    /* ===== SCREENSHOTS SECTION ===== */
+    .screenshots-section {
+      padding: 20px 0;
+      background: var(--card-bg);
+    }
+
+    .screenshots-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 20px 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .screenshots-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screenshot-card {
+      flex-shrink: 0;
+      width: 140px;
+      scroll-snap-align: start;
+      text-align: center;
+    }
+
+    .screenshot-frame {
+      width: 140px;
+      height: 250px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+      background: var(--bg);
+    }
+
+    .screenshot-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .screenshot-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      line-height: 1.3;
+      padding: 0 4px;
+    }
+
+    /* ===== ABOUT SECTION ===== */
+    .about-section {
+      padding: 24px 20px;
+      background: var(--card-bg);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .about-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    /* ===== FEATURE CARDS ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent-teal);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .feature-icon.teal { background: var(--accent-teal-light); }
+    .feature-icon.gold { background: #FFF8DC; }
+    .feature-icon.blue { background: #EBF0FF; }
+    .feature-icon.rose { background: #FFF0F0; }
+
+    .feature-card h3 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ===== PLATFORM FOOTER ===== */
+    .platform-footer {
+      padding: 24px 20px;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .platform-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .platform-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--text);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    .platform-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .platform-badge svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .platform-subtitle {
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-links a {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-teal);
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero        { animation: fadeInUp 0.5s ease both; }
+    .stats-row   { animation: fadeInUp 0.5s ease 0.1s both; }
+    .screenshots-section { animation: fadeInUp 0.5s ease 0.2s both; }
+    .about-section       { animation: fadeInUp 0.5s ease 0.3s both; }
+    .platform-footer     { animation: fadeInUp 0.5s ease 0.4s both; }
+
+    /* ===== RESPONSIVE: TABLET+ ===== */
+    @media (min-width: 481px) {
+      .page-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+      }
+
+      .hero { padding: 40px 32px 28px; }
+      .hero h1 { font-size: 1.9rem; }
+      .screenshot-card { width: 160px; }
+      .screenshot-frame { width: 160px; height: 285px; }
+      .features-grid { gap: 16px; }
+    }
+
+    @media (min-width: 768px) {
+      .page-wrapper { max-width: 540px; }
+      .features-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- ===== HERO ===== -->
+    <header class="hero" id="hero-header">
+      <div class="hero-icon">
+        <img src="img/AllPreepwaapp.png" alt="Allpree Deals smiley logo" width="88" height="88"/>
+      </div>
+      <h1>Allpree Deals</h1>
+      <p class="tagline">Browse, Visit, Shop &amp; Save</p>
+
+      <div class="action-buttons" id="action-buttons">
+        <button class="btn btn-primary" id="install-btn" aria-label="Add to Home Screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+          Add to Home screen
+        </button>
+        <button class="btn btn-outline" id="share-btn" aria-label="Share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+        <button class="btn btn-outline" id="wishlist-btn" aria-label="Add to Wishlist">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Add to wishlist
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== STATS ROW ===== -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-item">
+        <div class="stat-value">
+          4.6
+          <span class="stars">★★★★★</span>
+        </div>
+        <div class="stat-label">Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">34+</div>
+        <div class="stat-label">Downloads</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">
+          <span class="rating-badge">E</span>
+        </div>
+        <div class="stat-label">Everyone</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ===== SCREENSHOTS ===== -->
+    <section class="screenshots-section" id="screenshots">
+      <div class="screenshots-scroll">
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="img/screenshot-deals.png" alt="Real-Time local Deals screen" loading="lazy"/>
+          </div>
+          <span class="screenshot-label">Real-Time local Deals</span>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="img/screenshot-cart.png" alt="Add deals to your cart screen" loading="lazy"/>
+          </div>
+          <span class="screenshot-label">Add deals to your cart</span>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="img/screenshot-map.png" alt="Get instant directions screen" loading="lazy"/>
+          </div>
+          <span class="screenshot-label">Get instant directions</span>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="img/screenshot-stores.png" alt="Share to Visit screen" loading="lazy"/>
+          </div>
+          <span class="screenshot-label">Share to Visit</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ===== ABOUT THIS APP ===== -->
+    <section class="about-section" id="about">
+      <h2 class="section-title">About this app</h2>
+      <p class="about-text">
+        Allpree Deals is your ultimate local savings companion! Discover incredible deals from nearby stores&mdash;all in real-time. Simply install the app and start saving on groceries, electronics, clothing, and more. Build personalized shopping lists with no sign-up required. For your best savings, preview a list from your nearest store, turning your everyday spending into smart shopping trips.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon teal">📍</div>
+          <h3>Real-time Deals</h3>
+          <p>Discover offers near you the moment they go live.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon blue">🗺️</div>
+          <h3>Instant Directions</h3>
+          <p>One-tap navigation to your nearest deal locations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon gold">🛒</div>
+          <h3>Smart Shopping Lists</h3>
+          <p>Build and manage lists from multiple local stores.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon rose">⭐</div>
+          <h3>Enhanced Indicators</h3>
+          <p>Visual cues highlight the best value deals at a glance.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ===== PLATFORM FOOTER ===== -->
+    <footer class="platform-footer" id="platform-footer">
+      <div class="platform-badges">
+        <a href="#" class="platform-badge" id="ios-badge" aria-label="Get on iOS">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          iOS
+        </a>
+        <a href="#" class="platform-badge" id="android-badge" aria-label="Get on Android">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.27-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.51-.38-.83-.22-.31.16-.43.54-.27.85L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+          Android
+        </a>
+      </div>
+      <p class="platform-subtitle">Works on Safari for iOS and Chrome for Android</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
+
+  <script>
+    // ===== PWA INSTALL PROMPT =====
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const installBtn = document.getElementById('install-btn');
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`Install prompt outcome: ${outcome}`);
+          deferredPrompt = null;
+        }
+      });
+    });
+
+    // Share API
+    document.getElementById('share-btn').addEventListener('click', async () => {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Allpree Deals',
+            text: 'Browse, Visit, Shop & Save — discover real-time local deals!',
+            url: window.location.href
+          });
+        } catch (err) {
+          console.log('Share cancelled:', err);
+        }
+      } else {
+        // Fallback: copy link
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          alert('Link copied to clipboard!');
+        } catch {
+          alert('Share is not supported in this browser.');
+        }
+      }
+    });
+
+    // Wishlist (placeholder)
+    document.getElementById('wishlist-btn').addEventListener('click', () => {
+      const btn = document.getElementById('wishlist-btn');
+      const svg = btn.querySelector('svg path');
+      if (svg.getAttribute('fill') === 'none') {
+        svg.setAttribute('fill', '#e74c3c');
+        svg.setAttribute('stroke', '#e74c3c');
+        btn.style.borderColor = '#e74c3c';
+        btn.style.color = '#e74c3c';
+      } else {
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        btn.style.borderColor = '';
+        btn.style.color = '';
+      }
+    });
+
+    // Fallback for unsupported install
+    window.addEventListener('load', () => {
+      if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
+        const btn = document.getElementById('install-btn');
+        btn.addEventListener('click', () => {
+          if (!deferredPrompt) {
+            alert('To install: open your browser menu and tap "Add to Home Screen".');
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>

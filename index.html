@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Allpree Deals — Your ultimate local savings companion. Browse real-time deals, visit stores, shop smart and save big."/>
   <title>Allpree Deals — Browse, Visit, Shop & Save</title>
-  <link rel="manifest" href="https://app.allpree.com/manifest.json">
+  <link rel="manifest" href="/manifest.json"/>
   <link rel="icon" href="favicon.ico"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
@@ -471,7 +471,7 @@
   </style>
 <script>
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("https://www.allpree.com/service-worker.js")
+        navigator.serviceWorker.register("/sw.js")
             .then(() => console.log("Service Worker Registered"))
             .catch((error) => console.log("Service Worker Registration Failed", error));
     }
@@ -489,7 +489,7 @@
       <h1>Allpree Deals</h1>
       <p class="tagline">Browse, Visit, Shop &amp; Save</p>
 
-      <div class="action-buttons" id="trigger-a2hs">
+      <div class="action-buttons" id="action-buttons">
         <button class="btn btn-primary" id="install-btn" aria-label="Add to Home Screen">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
           Add to Home screen
@@ -644,7 +644,25 @@
   </div><!-- /.page-wrapper -->
 
   <script>
-   // Share API
+    // ===== PWA INSTALL PROMPT =====
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+
+      const installBtn = document.getElementById('install-btn');
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`Install prompt outcome: ${outcome}`);
+          deferredPrompt = null;
+        }
+      });
+    });
+
+    // Share API
     document.getElementById('share-btn').addEventListener('click', async () => {
       if (navigator.share) {
         try {
@@ -684,6 +702,17 @@
       }
     });
 
+    // Fallback for unsupported install
+    window.addEventListener('load', () => {
+      if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
+        const btn = document.getElementById('install-btn');
+        btn.addEventListener('click', () => {
+          if (!deferredPrompt) {
+            alert('To install: open your browser menu and tap "Add to Home Screen".');
+          }
+        });
+      }
+    });
   </script>
 
    <script>
@@ -768,10 +797,10 @@
   });
 
   // Close button
-  document.getElementById('a2hs-close').addEventListener('click', () => {
+/*  document.getElementById('a2hs-close').addEventListener('click', () => {
     document.getElementById('a2hs-popup').style.display = 'none';
     localStorage.setItem('a2hsShown', 'false'); // So it can show again next time
-  }); 
+  }); */
 
   // Android: If installed
   window.addEventListener('appinstalled', () => {

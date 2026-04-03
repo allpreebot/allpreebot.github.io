@@ -64,11 +64,6 @@ const API_CACHE_CONFIG = {
   }
 };
 
-self.addEventListener("install", event => {
-    event.waitUntil(preLoad());
-    self.skipWaiting();
-});
-
 // Install event - precache static assets
 self.addEventListener('install', function(event) {
   console.log('[SW] Installing service worker...');

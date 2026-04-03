@@ -17,7 +17,7 @@ const PRECACHE_URLS = [
   '/deals.html',
   '/js/loader.js',
   '/splashpage',
-  '/profile",
+  '/profile',
   '/balance',
   '/salesletter',
   '/marketing',

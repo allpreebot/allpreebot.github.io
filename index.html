@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Allpree Deals — Your ultimate local savings companion. Browse real-time deals, visit stores, shop smart and save big."/>
-  <title>Allpree Deals — Browse, Visit, Shop & Save</title>
+  <title>Install in-Store Deals </title>
   <link rel="manifest" href="/manifest.json"/>
   <link rel="icon" href="favicon.ico"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -613,7 +613,7 @@
   </div>
   <div style="display: flex; justify-content: flex-end;">
     <button id="a2hs-install-btn" style="margin-right: 10px;">Install</button>
-   <!-- <button id="a2hs-close">×</button> -->
+   <button id="a2hs-close">×</button> 
   </div>
 </div>
     
@@ -748,10 +748,10 @@
   });
 
   // Close button
-/*  document.getElementById('a2hs-close').addEventListener('click', () => {
+  document.getElementById('a2hs-close').addEventListener('click', () => {
     document.getElementById('a2hs-popup').style.display = 'none';
     localStorage.setItem('a2hsShown', 'false'); // So it can show again next time
-  }); */ 
+  }); 
 
   // Android: If installed
   window.addEventListener('appinstalled', () => {

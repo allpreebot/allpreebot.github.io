@@ -76,7 +76,7 @@
   ],
   "prefer_related_applications": false,
   "related_applications": [],
-  "gcm_sender_id": "482941778795"
+  "gcm_sender_id": "482941778795",
   "url_handlers": [
     {
       "origin": "https://app.allpree.com"

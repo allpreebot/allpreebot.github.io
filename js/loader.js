@@ -10,18 +10,26 @@
   ];
 
   const MODULES = [
+    // Core utilities & setup (must load first)
     'loading.js',
     'utilities.js',
+    'myStores.js',       // Must load before loadDeals.js (getMyStores)
     'init.js',
     'panel.js',
+    // Admin
     'admin.js',
+    'adminFetch.js',     // Fetches featured/takeover/ranked brand config
+    // Brand selection popups
     'favoriteBrands.js',
     'takeoverBrand.js',
+    // Cart & location
     'cart.js',
     'location.js',
     'savedLists.js',
+    // Deal popup & liked deals (likedDeals before dealPopup to avoid duplicate let)
     'likedDeals.js',
     'dealPopup.js',
+    // Main deal loading (depends on all above)
     'loadDeals.js',
     // pwa2 modules
     'splash.js',
@@ -30,9 +38,7 @@
     'offline.js',
     'deviceTracking.js',
     'stories.js',
-    // my stores module
-    'myStores.js',
-    // qr scanner module
+    // QR scanner
     'qrScanner.js'
   ];
 

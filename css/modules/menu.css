@@ -24,18 +24,35 @@
 .menu-button {
   background: #007bff;
   color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+  padding: 8px 10px;
+  border-radius: 15px;
   font-weight: bold;
   flex: 0 0 auto;
   cursor: pointer;
   white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 50px;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
-.menu-button[data-view="generategiftcard"] {
-  visibility: hidden;
-  position: absolute;
-  left: -9999px;
+.menu-button i {
+  line-height: 1;
+  font-size: 1.2rem; /* Keep icon size balanced */
+}
+
+.menu-label {
+  font-size: 0.4rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  margin: 0;
+  display: block;
 }
 
 .menu-button[data-view="signup"] {

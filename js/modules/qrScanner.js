@@ -249,9 +249,11 @@ function addStoreToList(storeName) {
       showQRResult('success', `✓ "${storeName}" added to your list!`);
       setTimeout(() => {
         if (typeof loadDeals === 'function') loadDeals();
-      }, 1500);
+        closeQRScanner();
+      }, 1200);
     } else {
       showQRResult('info', `"${storeName}" is already in your list.`);
+      setTimeout(() => closeQRScanner(), 1200);
     }
   }
 }

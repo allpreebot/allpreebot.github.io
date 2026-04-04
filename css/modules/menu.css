@@ -32,6 +32,12 @@
   white-space: nowrap;
 }
 
+.menu-button[data-view="generategiftcard"] {
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+}
+
 .menu-button[data-view="signup"] {
   visibility: hidden;
   position: absolute;

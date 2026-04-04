@@ -41,9 +41,17 @@ function openQRScanner() {
   }
   
   scannerContainer.style.display = 'block';
+  showQRResult('info', 'Starting camera...');
   
-  // Start scanner
-  startQRScanner();
+  // Force library to load before starting the scanner
+  loadQRLibrary().then(() => {
+    document.getElementById('qrResult').innerHTML = ''; // Clear loading message
+    startQRScanner();
+  }).catch(() => {
+    console.error('[QR] Failed to load library over the network.');
+    showQRResult('error', 'Scanner unavailable. Please enter the store name manually.');
+    startNativeCamera();
+  });
 }
 
 /**
@@ -65,18 +73,18 @@ function startQRScanner() {
     
     qrScanner.start(
       { facingMode: 'environment' },
-      { fps: 10, qrbox: { width: 250, height: 250 } },
+      { fps: 10, qrbox: 200 }, // Changed from 250x250 to a responsive safe size
       (decodedText, decodedResult) => {
         console.log('[QR] SCANNED:', decodedText);
         console.log('[QR] Result:', decodedResult);
         onQRCodeScanned(decodedText);
       },
       (errorMessage) => {
-        console.log('[QR] Scan error:', errorMessage);
+        // Suppress constant error logging for empty frames
       }
     ).catch((err) => {
       console.error('[QR] Scanner start error:', err);
-      document.getElementById('qrResult').innerHTML = '<p class="qr-error">Camera access denied. Please use manual input.</p>';
+      document.getElementById('qrResult').innerHTML = '<p class="qr-error">Camera access denied or blocked by browser. Please use manual input.</p>';
     });
     
     qrScannerActive = true;
@@ -88,7 +96,7 @@ function startQRScanner() {
 }
 
 /**
- * Native camera fallback
+ * Native camera fallback (View Only - Cannot decode)
  */
 function startNativeCamera() {
   const qrReader = document.getElementById('qrReader');
@@ -98,7 +106,6 @@ function startNativeCamera() {
     video.id = 'nativeCamera';
     video.setAttribute('playsinline', '');
     video.style.width = '100%';
-    video.style.maxWidth = '300px';
     video.style.borderRadius = '12px';
     
     qrReader.innerHTML = '';
@@ -110,8 +117,8 @@ function startNativeCamera() {
         video.play();
         qrScannerActive = true;
         
-        // For native camera, show manual input prominently
-        document.getElementById('qrResult').innerHTML = '<p class="qr-info">Camera active. Show QR code or enter store name manually below.</p>';
+        // Explicitly tell the user this is a dummy camera
+        document.getElementById('qrResult').innerHTML = '<p class="qr-error">Auto-scan offline. Camera is view-only. Enter store name manually.</p>';
       })
       .catch((err) => {
         console.log('Camera error:', err);
@@ -312,16 +319,14 @@ function addQRScannerStyles() {
     #qrReader {
       width: 100%;
       min-height: 200px;
-      max-height: 280px;
       background: #f0f0f0;
       border-radius: 12px;
       overflow: hidden;
     }
     
+    /* REMOVED the object-fit: cover and !important tags that distorted the canvas */
     #qrReader video {
-      width: 100% !important;
-      max-height: 280px !important;
-      object-fit: cover;
+      width: 100%;
       border-radius: 12px;
     }
     
@@ -351,6 +356,7 @@ function addQRScannerStyles() {
       padding: 10px;
       background: #ffebee;
       border-radius: 8px;
+      font-size: 14px;
     }
     
     .qr-info {

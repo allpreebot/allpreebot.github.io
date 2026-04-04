@@ -18,7 +18,7 @@
   const positions = {
     full: screenHeight * 0,
     mid: screenHeight * 0.5,
-    collapsed: screenHeight * 0.89
+    collapsed: screenHeight * 0.88
   };
 
   const allowedViews = ["add", "generategiftcard", "topup", "signup", "balance", "marketing", "salesletter", "profile"];
@@ -64,7 +64,7 @@
       contentDiv.innerHTML = html;
 
       const bottomPadding = screenHeight - positions.collapsed;
-      contentDiv.style.paddingBottom = `${bottomPadding + 70}px`;
+      contentDiv.style.paddingBottom = `${bottomPadding + 50}px`;
 
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = html;

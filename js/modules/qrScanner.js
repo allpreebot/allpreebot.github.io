@@ -249,11 +249,11 @@ function addStoreToList(storeName) {
       showQRResult('success', `✓ "${storeName}" added to your list!`);
       setTimeout(() => {
         if (typeof loadDeals === 'function') loadDeals();
-        closeQRScanner();
+        closeQRScanner(true); // Explicitly reload here since we added a new store
       }, 1200);
     } else {
       showQRResult('info', `"${storeName}" is already in your list.`);
-      setTimeout(() => closeQRScanner(), 1200);
+      setTimeout(() => closeQRScanner(false), 1200);
     }
   }
 }
@@ -289,10 +289,10 @@ function showQRResult(type, message) {
 
 /**
  * Close and fully clean up QR Scanner
- * @param {boolean} reload - If true (default), reload the page so the splash
- *   video plays and deals refresh. Pass false for internal cleanup only.
+ * @param {boolean} reload - If true, reload the page so the splash
+ *   video plays and deals refresh. Defaults to false.
  */
-function closeQRScanner(reload = true) {
+function closeQRScanner(reload = false) {
   // Stop frame loop (used by jsQR fallback)
   qrScannerActive = false;
 

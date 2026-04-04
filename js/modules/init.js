@@ -26,10 +26,15 @@ function showMainApp() {
   const urlParams = new URLSearchParams(window.location.search);
   const action = urlParams.get('action');
 
-  if (action === 'scan') {
-    if (typeof window.openQRScanner === 'function') window.openQRScanner();
-  } else if (action === 'cart') {
-    if (typeof window.openCartPopup === 'function') window.openCartPopup();
+  if (action) {
+    if (action === 'scan') {
+      if (typeof window.openQRScanner === 'function') window.openQRScanner();
+    } else if (action === 'cart') {
+      if (typeof window.openCartPopup === 'function') window.openCartPopup();
+    }
+    
+    // Clear the URL parameter so refreshing doesn't re-trigger the popup
+    window.history.replaceState({}, document.title, window.location.pathname);
   }
 }
 

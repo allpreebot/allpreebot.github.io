@@ -11,13 +11,11 @@
 <script src="js/loader.js"></script>
 <link href="//fonts.googleapis.com/css?family=Space+Mono|Work+Sans:700" rel="stylesheet">
 <link rel="stylesheet" href="css/main.css">	
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
-<link rel="apple-touch-icon" type="image/png" sizes="192x192" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
-<link rel="apple-touch-icon" type="image/png" sizes="32x32" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
-<link rel="apple-touch-icon" type="image/png" sizes="96x96" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
-<link rel="apple-touch-icon" type="image/png" sizes="16x16" href="https://www.allpree.com/img/AllPreepwaapp.png"/>
-	<link rel="web-app-origin-association" href="/web-app-origin-association">
-   <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="img/icon-192.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="img/icon-192.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="img/icon-192.png"/>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#163A5C">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
      <title>See Today's Deals</title>
 	 <meta name="robots" content="noindex, nofollow" />
@@ -101,21 +99,22 @@ webpushr('setup',{'key':'BE2GVRF5mLk7Fp1kzgXE_A5QDGK54HwqN1wEgxczP_fzfugkPREKHeb
   <div id="deals-container">Loading deals...</div>
 
 	<div id="bottomMenu">
-        <div id="refresh-button" style="position: fixed;" class="menu-button" onclick="location.reload()"><i class="fa-solid fa-arrows-rotate fa-lg"></i></div>
-        <div id="qr-scan-button" class="menu-button" style="margin-left: 64px;" onclick="openQRScanner()"><i class="fa-solid fa-qrcode fa-lg"></i></div>
-        <div id="savedListsButton" class="menu-button" onclick="openSavedListsPopup()"><i class="fa-solid fa-receipt fa-lg"></i> </div>
+        <div id="refresh-button" style="position: fixed;" class="menu-button" onclick="location.reload()"><i class="fa-solid fa-arrows-rotate fa-lg"></i><span class="menu-label">Refresh</span></div>
+        <div id="qr-scan-button" class="menu-button" style="margin-left: 60px;" onclick="openQRScanner()"><i class="fa-solid fa-qrcode fa-lg"></i><span class="menu-label">Scan</span></div>
+        <div id="savedListsButton" class="menu-button" onclick="openSavedListsPopup()"><i class="fa-solid fa-receipt fa-lg"></i><span class="menu-label">Lists</span></div>
+	<div id="viewAllButton" class="menu-button" ><i class="fa-solid fa-book-open-reader fa-lg"></i><span class="menu-label">Read</span></div>
+	<div id="profile" class="menu-button" data-view="profile"><i class="fa-solid fa-user fa-lg"></i><span class="menu-label">Profile</span></div>
 	
-	<div id="profile" class="menu-button" data-view="profile"><i class="fa-solid fa-user fa-lg"></i> </div>
-	
-	<div id="CartButton" class="menu-button" onclick="openCartPopup()"><i class="fa-solid fa-cart-shopping fa-lg"></i> <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 4px; display: none;">0</span></div>
+	<div id="CartButton" class="menu-button" onclick="openCartPopup()"><i class="fa-solid fa-cart-shopping fa-lg"></i> <span id="cart-count" style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 4px; display: none;">0</span><span class="menu-label">Cart</span></div>
         
-	<div id="lockButton" onclick="openLeaderboard()" class="menu-button"><i class="fa-solid fa-arrow-up-wide-short fa-lg"></i> </div>
-	<div id="marketing" class="menu-button" data-view="marketing"><i class="fa-solid fa-share-from-square fa-lg"></i></div>	
-    <div id="salesletter" class="menu-button" data-view="salesletter"><i class="fa-solid fa-hand-holding-dollar fa-lg"></i> </div>
-	<div id="viewAllButton" class="menu-button" ><i class="fa-solid fa-book-open-reader fa-lg"></i></div>	
-<!--    <div id="takeover-brand-button" class="menu-button"  onclick="openTakeoverBrandPopup()"><i class="fa-solid fa-heart fa-lg"></i></div>     
-	<div id="favorite-brand-button" class="menu-button" onclick="openFavoriteBrandPopup()"><i class="fa-solid fa-trophy fa-lg"></i></div>  -->
+	<div id="lockButton" onclick="openLeaderboard()" class="menu-button"><i class="fa-solid fa-arrow-up-wide-short fa-lg"></i><span class="menu-label">Rank</span></div>
+	<div id="marketing" class="menu-button" data-view="marketing"><i class="fa-solid fa-share-from-square fa-lg"></i><span class="menu-label">Share</span></div>	
+    <div id="salesletter" class="menu-button" data-view="salesletter"><i class="fa-solid fa-hand-holding-dollar fa-lg"></i><span class="menu-label">Offer</span></div>
 		
+    <!--    
+	<div id="takeover-brand-button" class="menu-button"  onclick="openTakeoverBrandPopup()"><i class="fa-solid fa-heart fa-lg"></i><span class="menu-label">Likes</span></div>     
+	<div id="favorite-brand-button" class="menu-button" onclick="openFavoriteBrandPopup()"><i class="fa-solid fa-trophy fa-lg"></i><span class="menu-label">Trophy</span></div>
+	-->
 
 <div id="offlineMessage" class="menu-button" style="
   display: none;
@@ -133,10 +132,11 @@ webpushr('setup',{'key':'BE2GVRF5mLk7Fp1kzgXE_A5QDGK54HwqN1wEgxczP_fzfugkPREKHeb
 </div>
 
 	
-     <div class="menu-button" data-view="signup"><i class="fa-solid fa-file-contract fa-lg"></i> Sign Up</div> 
-     <div id="generategiftcard" class="menu-button" data-view="generategiftcard"><i class="fa-solid fa-credit-card fa-lg"></i> </div>	
-     <div class="menu-button" data-view="topup"><i class="fa-solid fa-building-columns fa-lg"></i> Topup Card</div>
-     <div class="menu-button" data-view="balance"><i class="fa-solid fa-piggy-bank fa-lg"></i> Balance & Bill Payment</div>
+    <div class="menu-button" data-view="signup"><i class="fa-solid fa-file-contract fa-lg"></i> <span class="menu-label">Sign Up</span></div> 
+     <div id="generategiftcard" class="menu-button" data-view="generategiftcard"><i class="fa-solid fa-credit-card fa-lg"></i> <span class="menu-label">Cards</span></div>	
+     <div class="menu-button" data-view="topup"><i class="fa-solid fa-building-columns fa-lg"></i> <span class="menu-label">Topup</span></div>
+     <div class="menu-button" data-view="balance"><i class="fa-solid fa-piggy-bank fa-lg"></i> <span class="menu-label">Balance</span></div>
+  
   
 </div>
 

@@ -21,6 +21,16 @@ function showMainApp() {
   if (mainApp) mainApp.style.display = 'block';
   
   document.body.classList.remove('noscroll');
+
+  // Handle PWA Shortcuts (action=scan, action=cart)
+  const urlParams = new URLSearchParams(window.location.search);
+  const action = urlParams.get('action');
+
+  if (action === 'scan') {
+    if (typeof window.openQRScanner === 'function') window.openQRScanner();
+  } else if (action === 'cart') {
+    if (typeof window.openCartPopup === 'function') window.openCartPopup();
+  }
 }
 
 /**

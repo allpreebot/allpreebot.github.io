@@ -52,26 +52,36 @@ function openQRScanner() {
 function startQRScanner() {
   const qrReader = document.getElementById('qrReader');
   
-  if (!qrReader) return;
+  if (!qrReader) {
+    console.error('[QR] qrReader element not found!');
+    return;
+  }
   
   // Use html5-qrcode library
   if (typeof Html5Qrcode !== 'undefined') {
+    console.log('[QR] Html5Qrcode library found, starting scanner...');
+    
     qrScanner = new Html5Qrcode('qrReader');
     
     qrScanner.start(
       { facingMode: 'environment' },
       { fps: 10, qrbox: { width: 250, height: 250 } },
-      onQRCodeScanned,
+      (decodedText, decodedResult) => {
+        console.log('[QR] SCANNED:', decodedText);
+        console.log('[QR] Result:', decodedResult);
+        onQRCodeScanned(decodedText);
+      },
       (errorMessage) => {
-        // Ignore errors during scanning
+        console.log('[QR] Scan error:', errorMessage);
       }
     ).catch((err) => {
-      console.log('QR Scanner error:', err);
+      console.error('[QR] Scanner start error:', err);
       document.getElementById('qrResult').innerHTML = '<p class="qr-error">Camera access denied. Please use manual input.</p>';
     });
     
     qrScannerActive = true;
   } else {
+    console.warn('[QR] Html5Qrcode not found, using native camera fallback');
     // Fallback: Use native camera API
     startNativeCamera();
   }
@@ -302,6 +312,7 @@ function addQRScannerStyles() {
     #qrReader {
       width: 100%;
       min-height: 200px;
+      max-height: 280px;
       background: #f0f0f0;
       border-radius: 12px;
       overflow: hidden;
@@ -309,6 +320,8 @@ function addQRScannerStyles() {
     
     #qrReader video {
       width: 100% !important;
+      max-height: 280px !important;
+      object-fit: cover;
       border-radius: 12px;
     }
     

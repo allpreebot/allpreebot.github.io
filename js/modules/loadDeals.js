@@ -67,9 +67,19 @@ async function loadDeals() {
     }
   }
 
-  const allResponses = await Promise.all(
-    sheetUrls.map(url => fetchWithTimeout(url))
-  );
+  // Load sheets in chunks of 5 to avoid overwhelming Jamaica's mobile network
+  // Sheets are already priority-sorted: takeover → favorite → ranked → rest
+  const CHUNK_SIZE = 5;
+  const allResponses = [];
+  
+  for (let c = 0; c < sheetUrls.length; c += CHUNK_SIZE) {
+    const chunk = sheetUrls.slice(c, c + CHUNK_SIZE);
+    const chunkResponses = await Promise.all(
+      chunk.map(url => fetchWithTimeout(url))
+    );
+    allResponses.push(...chunkResponses);
+    console.log('[Deals] Loaded chunk ' + Math.floor(c / CHUNK_SIZE + 1) + '/' + Math.ceil(sheetUrls.length / CHUNK_SIZE));
+  }
 
   for (let i = 0; i < allResponses.length; i++) {
     const rows = allResponses[i];

@@ -83,18 +83,65 @@ function showLikedDealsInPopup() {
 }
 
 function goToNextLikedDeal() {
-  if (likedDealKeys.length === 0) return;
-  likedDealIndex = (likedDealIndex + 1) % likedDealKeys.length;
+  // Re-sync keys from localStorage (deals may have been unliked)
   const likedDeals = JSON.parse(localStorage.getItem('likedDeals') || '{}');
+  likedDealKeys = Object.keys(likedDeals);
+
+  if (likedDealKeys.length === 0) {
+    // All deals were unliked — exit liked mode gracefully
+    isLikedMode = false;
+    highlightTab('showRandomBtn');
+    showRandomDealsInPopup();
+    return;
+  }
+
+  // Clamp index in case the array shrank after an unlike
+  if (likedDealIndex >= likedDealKeys.length) {
+    likedDealIndex = 0;
+  } else {
+    likedDealIndex = (likedDealIndex + 1) % likedDealKeys.length;
+  }
+
   const deal = likedDeals[likedDealKeys[likedDealIndex]];
+  if (!deal) {
+    // Safety net — should not happen after re-sync, but guard anyway
+    console.warn('Liked deal not found at index', likedDealIndex, '— falling back to random');
+    isLikedMode = false;
+    highlightTab('showRandomBtn');
+    showRandomDealsInPopup();
+    return;
+  }
   openPopup(deal, true);
 }
 
 function goToPrevLikedDeal() {
-  if (likedDealKeys.length === 0) return;
-  likedDealIndex = (likedDealIndex - 1 + likedDealKeys.length) % likedDealKeys.length;
+  // Re-sync keys from localStorage (deals may have been unliked)
   const likedDeals = JSON.parse(localStorage.getItem('likedDeals') || '{}');
+  likedDealKeys = Object.keys(likedDeals);
+
+  if (likedDealKeys.length === 0) {
+    // All deals were unliked — exit liked mode gracefully
+    isLikedMode = false;
+    highlightTab('showRandomBtn');
+    showRandomDealsInPopup();
+    return;
+  }
+
+  // Clamp index in case the array shrank after an unlike
+  if (likedDealIndex >= likedDealKeys.length) {
+    likedDealIndex = likedDealKeys.length - 1;
+  } else {
+    likedDealIndex = (likedDealIndex - 1 + likedDealKeys.length) % likedDealKeys.length;
+  }
+
   const deal = likedDeals[likedDealKeys[likedDealIndex]];
+  if (!deal) {
+    console.warn('Liked deal not found at index', likedDealIndex, '— falling back to random');
+    isLikedMode = false;
+    highlightTab('showRandomBtn');
+    showRandomDealsInPopup();
+    return;
+  }
   openPopup(deal, true);
 }
 

@@ -104,6 +104,10 @@
   }
 
   function startDrag(e) {
+    // Don't drag if touching inside popup overlay
+    const popup = document.getElementById('popup');
+    if (popup && popup.contains(e.target)) return;
+    
     if (content.scrollTop > 0) return;
     startY = e.touches ? e.touches[0].clientY : e.clientY;
     isDragging = true;

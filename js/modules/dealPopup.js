@@ -1,6 +1,13 @@
 /**
  * Deal Popup Module
- * Handles deal popup display and interactions
+ * Handles deal popup display, swipe navigation, and interactions
+ *
+ * Depends on:
+ *   - likedDeals.js (isLikedMode, likedDealIndex, likedDealKeys, showLikedDealsInPopup, goToNextLikedDeal, goToPrevLikedDeal, cleanUpLikedDeals, renderLikedDealsGallery)
+ *   - init.js (fetchWithTimeout, shuffleArray, allDealsFlat, allBrandsData)
+ *   - utilities.js (getDealKey)
+ *   - cart.js (addToCart)
+ *   - loading.js (showSpinner, hideSpinner)
  */
 
 let currentPopupDeal = null;
@@ -9,6 +16,10 @@ let brandDealIndex = 0;
 let brandDealKeys = [];
 let popupCountdownInterval = null;
 let isSwiping = false;
+
+// ============================
+// Countdown Timer
+// ============================
 
 function startPopupCountdown(expireDate, el) {
   if (!el || !expireDate) return;
@@ -52,6 +63,10 @@ function startPopupCountdown(expireDate, el) {
   popupCountdownInterval = setInterval(updateCountdown, 1000);
 }
 
+// ============================
+// Open Popup
+// ============================
+
 function openPopup({ image, name, original, discount, description, brandLogo, brandName, sourceUrl }, skipHistory = false) {
   const originalPrice = parseFloat(original.replace(/,/g, '')) || 0;
   const discountPrice = parseFloat(discount.replace(/,/g, '')) || 0;
@@ -87,14 +102,17 @@ function openPopup({ image, name, original, discount, description, brandLogo, br
 
   const brandInfo = allBrandsData.find(b => b.brand === brandName);
 
+  // Wait for the popup to be fully populated before injecting badges
   setTimeout(() => {
     const badgeContainer = document.querySelector('#popup .brand-logo-container');
     if (!badgeContainer) return console.warn('No badge container in popup');
 
+    // Remove old badges (including any future types)
     badgeContainer.querySelectorAll('.badge-premium, .badge-pro, .badge-starter, .badge-exclusive')
       .forEach(el => el.remove());
 
     if (brandInfo) {
+      // Normalize case to avoid mismatches like 'True' vs 'true'
       const isPro = brandInfo.Pro?.toLowerCase() === 'true';
       const isPremium = brandInfo.Premium?.toLowerCase() === 'true';
       const isStarter = brandInfo.Starter?.toLowerCase() === 'true';
@@ -123,9 +141,12 @@ function openPopup({ image, name, original, discount, description, brandLogo, br
       if (badge) {
         badgeContainer.appendChild(badge);
         console.log('Badge added to popup:', badge.outerHTML);
+      } else {
+        console.log('No matching badge type found for brandInfo:', brandInfo);
       }
     }
   }, 100);
+
 
   if (brandInfo?.expireDate) {
     startPopupCountdown(brandInfo.expireDate, popupTimerEl);
@@ -143,9 +164,14 @@ function openPopup({ image, name, original, discount, description, brandLogo, br
   setupAddToCartButton(currentPopupDeal);
 }
 
+// ============================
+// Like Button
+// ============================
+
 function setupLikeButton(deal) {
   const likeContainer = document.getElementById('likeButtonContainer');
 
+  // Hide like button in brand mode
   if (typeof isBrandMode !== 'undefined' && isBrandMode) {
     likeContainer?.classList.add('hidden');
     return;
@@ -202,6 +228,10 @@ function setupLikeButton(deal) {
   };
 }
 
+// ============================
+// Add To Cart Button
+// ============================
+
 function setupAddToCartButton(deal) {
   const cartBtnContainer = document.getElementById('cartBtnContainer');
   const addToCartBtn = document.getElementById('popupAddToCartBtn');
@@ -231,8 +261,8 @@ function setupAddToCartButton(deal) {
 
   addToCartBtn.onclick = () => {
     const isInCart = checkIfInCart();
-    updateCartBtnState(!isInCart);
-    addToCart(deal);
+    updateCartBtnState(!isInCart); // Update UI instantly
+    addToCart(deal); // Then handle logic + real cart update
   };
 
   function updateCartBtnState(isNowInCart) {
@@ -241,29 +271,41 @@ function setupAddToCartButton(deal) {
   }
 }
 
+// ============================
+// Close Popup
+// ============================
+
 function closePopup() {
   document.getElementById('popup').style.display = 'none';
   currentPopupDeal = null;
   document.body.classList.remove('noscroll');
 
+  // FULL RESET here:
   isBrandMode = false;
   isLikedMode = false;
 
+  // Reset tab buttons inside the popup (if you have any active classes)
   const tabs = document.querySelectorAll('.tab-switcher .tab-btn');
   tabs.forEach(tab => tab.classList.remove('active'));
 
+  // Optional: highlight random tab as the default
   const randomTab = document.getElementById('showRandomBtn');
   if (randomTab) randomTab.classList.add('active');
 }
 
 function resetTabsToNormal() {
-  highlightTab('showRandomTabBtn');
-  isBrandMode = false;
-  isLikedMode = false;
+  // Reset the active tab to the "random" deals tab
+  highlightTab('showRandomBtn'); // Assumes 'showRandomBtn' is the button for the random tab
+  isBrandMode = false; // Reset brand mode
+  isLikedMode = false; // Reset liked mode
 
-  document.body.classList.remove('noscroll');
+  // Optionally, reset any other state or UI changes that were specific to the popup
+  document.body.classList.remove('noscroll'); // Allow scrolling again after popup close
+  // Hide the popup
   document.getElementById('popup').style.display = 'none';
 
+  // Optionally clear any other custom settings (e.g., reset any custom button styles or selected elements)
+  // Example: reset the popup content (optional)
   document.getElementById('popupImg').src = '';
   document.getElementById('popupTitle').textContent = '';
   document.getElementById('popupPrice').textContent = '';
@@ -274,18 +316,50 @@ function resetTabsToNormal() {
   document.getElementById('popupTimer').textContent = '';
 }
 
-window.onpopstate = function(event) {
+// ============================
+// Tab Highlighting
+// ============================
+
+function highlightTab(tabId) {
+  // Reset the styles for all tabs
+  const tabs = document.querySelectorAll('.tab-switcher .tab-btn');
+  tabs.forEach(tab => tab.classList.remove('active'));
+
+  // Add the active class to the selected tab
+  const selectedTab = document.getElementById(tabId);
+  if (selectedTab) {
+    selectedTab.classList.add('active');
+  }
+}
+
+// ============================
+// Window Popstate Handler (combined both versions from pwa.md)
+// ============================
+
+window.onpopstate = function (event) {
   if (event.state && event.state.popup) {
+    if (event.state.dealName) {
+      // Try to restore the deal by name
+      const deal = allDealsFlat.find(d => d.name === event.state.dealName);
+      if (deal) {
+        openPopup(deal, true); // skip history push
+        return;
+      }
+    }
+    // Fallback: just reset tabs
     resetTabsToNormal();
+  } else {
+    // No popup state — close popup if open
+    const popup = document.getElementById('popup');
+    if (popup && popup.style.display === 'flex') {
+      closePopup();
+    }
   }
 };
 
-function highlightTab(buttonId) {
-  document.querySelectorAll('.tab-switcher .tab-btn').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  document.getElementById(buttonId)?.classList.add('active');
-}
+// ============================
+// Close popup by clicking outside
+// ============================
 
 document.getElementById('popup').addEventListener('click', function (e) {
   if (e.target === this) {
@@ -293,11 +367,16 @@ document.getElementById('popup').addEventListener('click', function (e) {
   }
 });
 
-function showBrandDealsInPopup(brandName) {
-  isBrandMode = true;
-  isLikedMode = false;
-  highlightTab('showBrandTabBtn');
+// ============================
+// Brand Deals in Popup
+// ============================
 
+function showBrandDealsInPopup(brandName) {
+  isBrandMode = true; // Set this before calling openPopup
+  isLikedMode = false; // Disable liked mode (random deals)
+  highlightTab('showBrandTabBtn'); // Highlight the "Brand" tab
+
+  // Filter all deals to get the selected brand's deals
   const sourceUrl = currentPopupDeal.sourceUrl;
   const brandDeals = allDealsFlat.filter(d => d.brandName === brandName && d.sourceUrl === sourceUrl);
 
@@ -309,13 +388,17 @@ function showBrandDealsInPopup(brandName) {
   brandDealKeys = brandDeals.map(d => d.name);
   brandDealIndex = 0;
 
+  // Check if the current deal is from this brand to maintain position
   const currentKey = getDealKey(currentPopupDeal);
   const startIndex = brandDeals.findIndex(d => getDealKey(d) === currentKey);
   brandDealIndex = startIndex !== -1 ? startIndex : 0;
 
   const deal = brandDeals[brandDealIndex];
-  openPopup(deal, true);
+
+  // Show only brand deals in the "Brand" tab
+  openPopup(deal, true); // Skip history push
 }
+
 
 function goToNextBrandDeal() {
   if (!brandDealKeys.length || !currentPopupDeal) return;
@@ -323,6 +406,7 @@ function goToNextBrandDeal() {
   brandDealIndex = (brandDealIndex + 1) % brandDealKeys.length;
   const nextDealName = brandDealKeys[brandDealIndex];
 
+  // Find the next deal specific to the current brand and location
   const deal = allDealsFlat.find(d =>
     d.name === nextDealName &&
     d.brandName === currentPopupDeal.brandName &&
@@ -340,6 +424,7 @@ function goToPrevBrandDeal() {
   brandDealIndex = (brandDealIndex - 1 + brandDealKeys.length) % brandDealKeys.length;
   const prevDealName = brandDealKeys[brandDealIndex];
 
+  // Find the previous deal specific to the current brand and location
   const deal = allDealsFlat.find(d =>
     d.name === prevDealName &&
     d.brandName === currentPopupDeal.brandName &&
@@ -350,6 +435,10 @@ function goToPrevBrandDeal() {
     openPopup(deal, true);
   }
 }
+
+// ============================
+// Random Deals in Popup
+// ============================
 
 function showRandomDealsInPopup() {
   isLikedMode = false;
@@ -370,22 +459,61 @@ function showRandomDealsInPopup() {
   openPopup(deal, true);
 }
 
+// ============================
+// Tab Button Handlers
+// ============================
+
+// showLikedBtn handler is in likedDeals.js to avoid duplication
+
+document.getElementById('showRandomBtn').onclick = () => {
+  // Only change deal if switching FROM liked/brand mode
+  // If already in random mode, just keep current deal
+  if (isLikedMode || isBrandMode) {
+    isLikedMode = false;
+    isBrandMode = false;
+    highlightTab('showRandomBtn');
+    showRandomDealsInPopup();
+  }
+};
+
+document.getElementById('showBrandTabBtn').onclick = () => {
+  const brand = currentPopupDeal?.brandName;
+  if (!brand) return;
+  isLikedMode = false;
+  isBrandMode = true;
+  highlightTab('showBrandTabBtn');
+  showBrandDealsInPopup(brand);
+};
+
+// ============================
+// Description Formatter
+// ============================
+
 function formatDescription(description) {
   if (!description) return '';
 
+  // Replace bold markers (e.g., **bold**) with <strong> tags
   description = description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+  // Replace newlines (\n) with <br> to preserve line breaks, without showing \n to the user
   description = description.replace(/\n/g, '<br>');
+
+  // Optional: Replace multiple consecutive <br> tags with <p> tags for paragraphs
   description = description.replace(/(<br>){2,}/g, '</p><p>');
 
   return description;
 }
+
+// ============================
+// Brand Container Click (opens brand tab from popup header)
+// ============================
 
 const brandContainer = document.getElementById('brandContainer');
 if (brandContainer) {
   brandContainer.addEventListener('click', () => {
     const brandName = document.getElementById('brandName')?.textContent?.trim();
     if (brandName) {
-      showBrandDealsInPopup(brandName);
+      showBrandDealsInPopup(brandName); // Open the brand tab with that brand
     }
   });
 }
@@ -393,12 +521,24 @@ if (brandContainer) {
 function activateBrandTab() {
   const brandTabBtn = document.getElementById('brandTabBtn');
   if (brandTabBtn) {
-    brandTabBtn.click();
+    brandTabBtn.click(); // Simulate user clicking on the Brand tab
   }
 }
 
+// ============================
+// Popup Swipe Listeners
+// ============================
+
+let _swipeListenersAttached = false;
+
 function addPopupSwipeListeners() {
+  // Guard: only attach listeners ONCE, no matter how many times this is called
+  if (_swipeListenersAttached) return;
+  _swipeListenersAttached = true;
+
   const popup = document.getElementById('popup');
+  if (!popup) return;
+
   let startY = 0;
   let endY = 0;
 
@@ -421,11 +561,14 @@ function addPopupSwipeListeners() {
     isSwiping = true;
 
     if (deltaY < 0) {
+      // Swipe UP - go to next deal
       if (isLikedMode) {
         goToNextLikedDeal();
       } else if (isBrandMode) {
         goToNextBrandDeal();
       } else {
+        // Random mode - show another random deal
+        if (allDealsFlat.length <= 1) { isSwiping = false; return; }
         let next;
         do {
           const randomIndex = Math.floor(Math.random() * allDealsFlat.length);
@@ -437,15 +580,29 @@ function addPopupSwipeListeners() {
         isLikedMode = false;
         isBrandMode = false;
 
-        openPopup(next);
+        openPopup(next, true);
       }
     } else {
+      // Swipe DOWN - show another random deal (not close)
       if (isLikedMode) {
         goToPrevLikedDeal();
       } else if (isBrandMode) {
         goToPrevBrandDeal();
       } else {
-        window.history.back();
+        // Random mode - show another random deal on swipe down too
+        if (allDealsFlat.length <= 1) { isSwiping = false; return; }
+        let prev;
+        do {
+          const randomIndex = Math.floor(Math.random() * allDealsFlat.length);
+          prev = allDealsFlat[randomIndex];
+        } while (prev.name === currentPopupDeal?.name);
+
+        document.getElementById('showLikedBtn')?.classList.remove('active');
+        document.getElementById('showRandomBtn')?.classList.add('active');
+        isLikedMode = false;
+        isBrandMode = false;
+
+        openPopup(prev, true);
       }
     }
 
@@ -455,34 +612,77 @@ function addPopupSwipeListeners() {
   }
 }
 
-document.getElementById('showRandomBtn').onclick = () => {
-  document.getElementById('showRandomBtn').classList.add('active');
-  document.getElementById('showLikedBtn').classList.remove('active');
-  document.getElementById('showBrandTabBtn').classList.remove('active');
-  showRandomDealsInPopup();
-};
+// Initialize swipe listeners
+addPopupSwipeListeners();
 
-document.getElementById('showBrandTabBtn').onclick = () => {
-  const brand = currentPopupDeal?.brandName;
-  if (!brand) return;
-  isLikedMode = false;
-  isBrandMode = true;
-  highlightTab('showBrandTabBtn');
-  showBrandDealsInPopup(brand);
-};
+// ============================
+// #account Click Handler (delegates to signup panel)
+// ============================
 
 document.addEventListener('click', function (event) {
   const accountLink = event.target.closest('#account');
-  
   if (accountLink) {
     event.preventDefault();
     closePopup();
-    
+    // Trigger the signup panel via the menu button
     const realButton = document.querySelector('.menu-button[data-view="signup"]');
     if (realButton) {
       realButton.click();
     } else {
-      console.error('Target action button not found.');
+      console.error('Signup button not found.');
     }
   }
 });
+
+// ============================
+// Commented-Out Handlers (preserved from pwa.md)
+// ============================
+
+/*
+  // popupImg click - navigate to random deal on image click
+  document.getElementById('popupImg').addEventListener('click', () => {
+    let next;
+    do {
+      const randomIndex = Math.floor(Math.random() * allDealsFlat.length);
+      next = allDealsFlat[randomIndex];
+    } while (next.name === currentPopupDeal?.name);
+    openPopup(next);
+  });
+
+  // popupBack click - go back in browser history
+  document.getElementById('popupBack').addEventListener('click', () => {
+    window.history.back();
+  });
+*/
+
+// ============================
+// Commented-Out: My Stores Feature (preserved from pwa.md)
+// ============================
+
+/*
+function getMyStores() {
+  return JSON.parse(localStorage.getItem('myStores') || '[]');
+}
+
+function saveMyStores(list) {
+  localStorage.setItem('myStores', JSON.stringify(list));
+}
+
+function addToMyStores(brandName) {
+  const stores = getMyStores();
+  if (!stores.includes(brandName)) {
+    stores.push(brandName);
+    saveMyStores(stores);
+  }
+}
+
+function removeFromMyStores(brandName) {
+  let stores = getMyStores();
+  stores = stores.filter(b => b !== brandName);
+  saveMyStores(stores);
+}
+
+function isInMyStores(brandName) {
+  return getMyStores().includes(brandName);
+}
+*/

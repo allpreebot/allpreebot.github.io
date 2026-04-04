@@ -10,7 +10,7 @@ const cartBtn = document.getElementById('cartBtn');
 if (cartBtn) {
   cartBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    openCartPopup();
+    showCartWithLocations();
   });
 }
 
@@ -102,7 +102,6 @@ async function showCartWithLocations() {
 function openCartPopup() {
   if (document.getElementById('cart-backdrop')) return;
 
-  showCartWithLocations();
 
   const backdrop = document.createElement('div');
   backdrop.id = 'cart-backdrop';

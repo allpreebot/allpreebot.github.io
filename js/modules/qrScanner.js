@@ -289,8 +289,10 @@ function showQRResult(type, message) {
 
 /**
  * Close and fully clean up QR Scanner
+ * @param {boolean} reload - If true (default), reload the page so the splash
+ *   video plays and deals refresh. Pass false for internal cleanup only.
  */
-function closeQRScanner() {
+function closeQRScanner(reload = true) {
   // Stop frame loop (used by jsQR fallback)
   qrScannerActive = false;
 
@@ -308,6 +310,11 @@ function closeQRScanner() {
   if (video && video.srcObject) {
     video.srcObject.getTracks().forEach(track => track.stop());
     video.srcObject = null;
+  }
+
+  // Reload page so splash video plays and deals refresh
+  if (reload) {
+    location.reload();
   }
 }
 

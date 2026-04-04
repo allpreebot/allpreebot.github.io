@@ -64,7 +64,7 @@
       contentDiv.innerHTML = html;
 
       const bottomPadding = screenHeight - positions.collapsed;
-      contentDiv.style.paddingBottom = `${bottomPadding + 50}px`;
+      contentDiv.style.paddingBottom = `${bottomPadding + 70}px`;
 
       const tempDiv = document.createElement('div');
       tempDiv.innerHTML = html;

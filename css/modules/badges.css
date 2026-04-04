@@ -62,7 +62,7 @@
   border: 3px solid var(--highlight-border-color);
   border-radius: 12px;
   padding-left: 0px;
-  padding-right: 50px;
+  padding-right: 0px;
 }
 
 .top-ranked-badge {
@@ -110,7 +110,7 @@
   animation: glowPulse 2s ease-in-out infinite;
   box-shadow: 0 0 10px gold;
   padding-left: 0px;
-  padding-right: 50px;
+  padding-right: 0px;
 }
 
 @keyframes glowPulse {
